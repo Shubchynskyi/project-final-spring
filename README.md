@@ -1,117 +1,102 @@
-## [REST API](http://localhost:8080/doc)
 
-## Концепция:
+As part of an educational project at Javarush University (https://javarush.com/university)
 
-- Spring Modulith
-    - [Spring Modulith: достигли ли мы зрелости модульности](https://habr.com/ru/post/701984/)
-    - [Introducing Spring Modulith](https://spring.io/blog/2022/10/21/introducing-spring-modulith)
-    - [Spring Modulith - Reference documentation](https://docs.spring.io/spring-modulith/docs/current-SNAPSHOT/reference/html/)
+It is necessary to perform versatile tasks in the finished project.
 
-```
-  url: jdbc:postgresql://localhost:5432/jira
-  username: jira
-  password: JiraRush
-```
-
-- Есть 2 общие таблицы, на которых не fk
-    - _Reference_ - справочник. Связь делаем по _code_ (по id нельзя, тк id привязано к окружению-конкретной базе)
-    - _UserBelong_ - привязка юзеров с типом (owner, lead, ...) к объекту (таска, проект, спринт, ...). FK вручную будем
-      проверять
-
-## Аналоги
-
-- https://java-source.net/open-source/issue-trackers
-
-## Тестирование
-
-- https://habr.com/ru/articles/259055/
+---
 
 ### Use [startComposeClear.sh](scripts/startComposeClear.sh) for start docker-compose with db & nginx
 ### Use [stopComposeAndDeleteAppImage.sh](scripts/stopComposeAndDeleteAppImage.sh) for stop docker-compose and remove all data
 
-## Выполненные задачи
-
-1. ***Задача***: Разобраться со структурой проекта (onboarding).
-    - ***Выполнено***:
-        - Изучена структура проекта.
-        - Выявлены основные модули и их связи.
-        - Каждый модуль является изолированной частью приложения для уменьшения зависимостей между ними.
-
 ---
-   
-2. ***Задача***: Удалить социальные сети: vk, yandex.
-    - ***Выполнено***:
-        - Удалены классы обработчиков (handler's) для взаимодействия с VK и Yandex.
-        - Создана и применена миграция Liquibase для удаления упоминаний VK и Yandex из БД.
+
+## Completed Tasks
+
+1. ***Task***: Familiarize oneself with the project structure (onboarding).
+    - ***Done***:
+        - Studied the project structure.
+        - Identified the main modules and their connections.
+        - Each module is an isolated part of the application to reduce dependencies between them.
 
 ---
 
-3. ***Задача***: Вынести чувствительную информацию в отдельный проперти файл.
-    - ***Выполнено***:
-        - Чувствительная информация вынесена [application-secrets.yaml](src/main/resources/application-secrets.yaml)
-        - application-secrets.yaml импортируется в основной файл.
-        - Реализована система чтения проперти из переменных окружения при старте сервера.
-        - Установлены дефолтные проперти для удобства при текущем ревью и проверке.
+2. ***Task***: Remove the social networks: vk, yandex.
+    - ***Done***:
+        - Removed the handler classes for interactions with VK and Yandex.
+        - Created and applied a Liquibase migration to remove references to VK and Yandex from the database.
 
 ---
 
-4. ***Задача***: Переделать тесты так, чтобы во время тестов использовалась in memory БД (H2), а не PostgreSQL.
-    - ***Выполнено***:
-        - Переделаны тесты, используется TestContainers.
+3. ***Task***: Move sensitive information to a separate properties file.
+    - ***Done***:
+        - Sensitive information has been moved to [application-secrets.yaml](src/main/resources/application-secrets.yaml).
+        - application-secrets.yaml is imported into the main file.
+        - Implemented a system to read properties from environment variables at server start-up.
+        - Default properties have been set for convenience during the current review and check.
 
 ---
 
-5. ***Задача***: Написать тесты для всех публичных методов контроллера ProfileRestController.
-    - ***Выполнено***:
-        - Написаны тесты для проверки успешных и неуспешных сценариев.
+4. ***Task***: Refactor tests to use an in-memory database (H2) instead of PostgreSQL during testing.
+    - ***Done***:
+        - Refactored tests to use TestContainers.
 
 ---
 
-6. ***Задача***: Сделать рефакторинг метода com.javarush.jira.bugtracking.attachment.FileUtil#upload чтоб он использовал современный подход для работы с файловой системмой.
-    - ***Выполнено***:
-        - Выполнен рефакторинг метода FileUtil#upload (используется MultipartFile, Path, Files).
+5. ***Task***: Write tests for all the public methods of the ProfileRestController.
+    - ***Done***:
+        - Wrote tests to validate both successful and unsuccessful scenarios.
 
 ---
 
-7. ***Задача***: Добавить новый функционал: добавления тегов к задаче (REST API + реализация на сервисе).
-    - ***Выполнено***:
-        - Добавлен метод addTags в TaskController.
-        - Добавлен метод addTagsToTask в TaskService.
+6. ***Task***: Refactor the method com.javarush.jira.bugtracking.attachment.FileUtil#upload to use a modern approach for file system handling.
+    - ***Done***:
+        - Refactored the FileUtil#upload method (now using MultipartFile, Path, Files).
 
 ---
 
-8. ***Задача***: Добавить подсчет времени сколько задача находилась в работе и тестировании.
-    - ***Выполнено***:
-        - Добавлены два метода в сервис для вычисления времени в работе и в тестировании.
-        - Добавлен метод getStatusChangeTime в ActivityRepository.
-        - Создана и применена миграция Liquibase для добавления соответствующих записей в таблицу ACTIVITY.
-        - EXTRA: добавлены тесты - [TaskServiceTest.java](src/test/java/com/javarush/jira/bugtracking/task/TaskServiceTest.java)
+7. ***Task***: Introduce a new feature: add tags to tasks (REST API + service implementation).
+    - ***Done***:
+        - Added the addTags method in TaskController.
+        - Introduced the addTagsToTask method in TaskService.
 
 ---
 
-9. ***Задача***: Написать Dockerfile для основного сервера.
-    - ***Выполнено***:
-        - Написан [Dockerfile](Dockerfile) для основного сервера.
+8. ***Task***: Calculate the time a task has been in work and testing.
+    - ***Done***:
+        - Added two methods to the service to compute the time in work and testing.
+        - Introduced the getStatusChangeTime method in ActivityRepository.
+        - Created and applied a Liquibase migration to add relevant rows in the ACTIVITY table.
+        - EXTRA: added tests - [TaskServiceTest.java](src/test/java/com/javarush/jira/bugtracking/task/TaskServiceTest.java).
 
 ---
 
-10. ***Задача***: Написать docker-compose файл для запуска контейнера сервера вместе с БД и nginx.
-    - ***Выполнено***:
-        - Написан [docker-compose.yml](docker-compose.yml) файл.
-        - Сервер, БД и nginx запускаются в связанных контейнерах, используют две внутренних сети.
-        - Используется файл переменных [docker-compose.env](config/docker-compose.env)
-        - EXTRA: [bach скрипт](scripts/startComposeClear.sh) для старта docker-compose.
-        - EXTRA: [bach скрипт](scripts/startComposeClear.sh) использует [HealthCheck](src/main/java/com/javarush/jira/util/HealthCheck.java) для ожидания старта приложения и автоматически открывает окно браузера при готовности nginx.
+9. ***Task***: Write a Dockerfile for the main server.
+    - ***Done***:
+        - Drafted the [Dockerfile](Dockerfile) for the main server.
 
 ---
 
-11. ***Задача***: Добавить локализацию минимум на двух языках для шаблонов писем (mails) и стартовой страницы index.html.
-    - ***Выполнено***:
-        - Добавлена поддержка локализации для шаблонов писем и стартовой страницы, включая все "Thymeleaf fragment".
-        - Реализована поддержка трех языков.
+10. ***Task***: Draft a docker-compose file to initiate the server container together with the database and nginx.
+    - ***Done***:
+        - Wrote the [docker-compose.yml](docker-compose.yml) file.
+        - Server, database, and nginx are initiated in linked containers using two internal networks.
+        - The [docker-compose.env](config/docker-compose.env) file is utilized.
+        - EXTRA: [bash script](scripts/startComposeClear.sh) for initiating docker-compose.
+        - EXTRA: [bash script](scripts/startComposeClear.sh) utilizes [HealthCheck](src/main/java/com/javarush/jira/util/HealthCheck.java) to wait for the app to start and automatically pops up a browser window once nginx is ready.
 
 ---
 
-12. ***Задача***: Переделать механизм распознавания «свой-чужой» между фронтом и беком с JSESSIONID на JWT.
-    - ***Выполнено***:
-        - Не выполнено, и это меня гложет.
+11. ***Task***: Add localization for a minimum of two languages for email templates (mails) and the index.html landing page.
+    - ***Done***:
+        - Localization support for email templates and the landing page was added, including all "Thymeleaf fragments".
+        - Implemented support for three languages.
+
+---
+
+## [REST API](http://localhost:8080/doc)
+
+```
+  url: jdbc:postgresql://localhost:2345/jira
+  username: jira
+  password: JiraRush
+```
