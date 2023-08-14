@@ -10,12 +10,24 @@ import org.testcontainers.containers.PostgreSQLContainer;
 // TODO task 4 - testcontainers
 @UtilityClass
 public class PostgresTestContainersInitializer {
-    public static final PostgreSQLContainer<?> container = new PostgreSQLContainer<>("postgres:latest");
+
+    private static PostgreSQLContainer<?> container;
+
+    public static void initializeContainer(String postgresVersion) {
+        container = new PostgreSQLContainer<>("postgres:" + postgresVersion);
+    }
+
+    public static PostgreSQLContainer<?> getContainer() {
+        if (container == null) {
+            throw new IllegalStateException("Container is not initialized yet!");
+        }
+        return container;
+    }
 
     public static class Initializer implements ApplicationContextInitializer<ConfigurableApplicationContext> {
-
         @Override
         public void initialize(@NotNull ConfigurableApplicationContext applicationContext) {
+            PostgreSQLContainer<?> container = PostgresTestContainersInitializer.getContainer();
             TestPropertyValues.of(
                     "spring.datasource.url=" + container.getJdbcUrl(),
                     "spring.datasource.username=" + container.getUsername(),
@@ -23,5 +35,5 @@ public class PostgresTestContainersInitializer {
             ).applyTo(applicationContext);
         }
     }
-
 }
+

@@ -45,7 +45,6 @@ public class HealthCheck {
                 }
             }
         }
-        System.err.printf((SERVER_NOT_RESPONDING_MSG) + "%n", MAX_RETRIES);
-        System.exit(1);
+        throw new RuntimeException(String.format(SERVER_NOT_RESPONDING_MSG + "%n", MAX_RETRIES));
     }
 }

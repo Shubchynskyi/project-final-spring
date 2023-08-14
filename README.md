@@ -36,7 +36,7 @@ It is necessary to perform versatile tasks in the finished project.
 
 ---
 
-4. ***Task***: Refactor tests to use an in-memory database (H2) instead of PostgreSQL during testing.
+4. ***Task***: Refactor tests to use TestContainers during testing.
     - ***Done***:
         - Refactored tests to use TestContainers.
 
