@@ -11,27 +11,33 @@ import org.testcontainers.containers.PostgreSQLContainer;
 @UtilityClass
 public class PostgresTestContainersInitializer {
 
+    public static final String CONTAINER_IS_NOT_INITIALIZED_YET = "Container is not initialized yet!";
+    public static final String POSTGRES = "postgres:";
     private static PostgreSQLContainer<?> container;
 
     public static void initializeContainer(String postgresVersion) {
-        container = new PostgreSQLContainer<>("postgres:" + postgresVersion);
+        container = new PostgreSQLContainer<>(POSTGRES + postgresVersion);
     }
 
     public static PostgreSQLContainer<?> getContainer() {
         if (container == null) {
-            throw new IllegalStateException("Container is not initialized yet!");
+            throw new IllegalStateException(CONTAINER_IS_NOT_INITIALIZED_YET);
         }
         return container;
     }
 
     public static class Initializer implements ApplicationContextInitializer<ConfigurableApplicationContext> {
+        public static final String SPRING_DATASOURCE_URL = "spring.datasource.url=";
+        public static final String SPRING_DATASOURCE_USERNAME = "spring.datasource.username=";
+        public static final String SPRING_DATASOURCE_PASSWORD = "spring.datasource.password=";
+
         @Override
         public void initialize(@NotNull ConfigurableApplicationContext applicationContext) {
             PostgreSQLContainer<?> container = PostgresTestContainersInitializer.getContainer();
             TestPropertyValues.of(
-                    "spring.datasource.url=" + container.getJdbcUrl(),
-                    "spring.datasource.username=" + container.getUsername(),
-                    "spring.datasource.password=" + container.getPassword()
+                    SPRING_DATASOURCE_URL + container.getJdbcUrl(),
+                    SPRING_DATASOURCE_USERNAME + container.getUsername(),
+                    SPRING_DATASOURCE_PASSWORD + container.getPassword()
             ).applyTo(applicationContext);
         }
     }

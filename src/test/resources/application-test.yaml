@@ -4,4 +4,4 @@ spring:
     mode: always
 
 database:
-  version: 15.2
+  version: latest
